@@ -1,4 +1,4 @@
-# Handwriting-Recognition
+# Handwriting Recognition
 
 Software to recognize handwriting
 
@@ -14,7 +14,7 @@ Dataset (digit) used - MNIST
 Algorithm - Support Vector Machines (kernel = linear)  
 Training time - 1036.442 seconds  
 Prediction time - 1636.704 seconds  
-Accuracy - 0.969242857143  
+Accuracy - 96.92%  
 
 
 # Checklist
