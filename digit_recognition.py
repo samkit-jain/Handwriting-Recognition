@@ -84,6 +84,10 @@ else:
 
 	f = open('classifier_full.pickle', 'wb')
 	pickle.dump(clf, f)
+	f.close()
+
+	f = open('classifier_full.pickle', 'rb')
+	clf = pickle.load(f)
 
 
 while True:
