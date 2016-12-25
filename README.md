@@ -5,8 +5,8 @@ Software to recognize handwriting
 
 # Screenshots
 
-![alt text](https://github.com/samkit-jain/Handwriting-Recognition/blob/master/screen1.png)
-![alt text](https://github.com/samkit-jain/Handwriting-Recognition/blob/master/screen2.png)
+<img src="https://github.com/samkit-jain/Handwriting-Recognition/blob/master/screen1.png" width="400">
+<img src="https://github.com/samkit-jain/Handwriting-Recognition/blob/master/screen2.png" width="400">
 
 # Stats
 
@@ -19,9 +19,9 @@ Accuracy - 96.92%
 
 # Checklist
 
-- [x] Recognize single digit
+- [x] Recognize digit
+- [x] Recognize letter
 - [ ] Recognize multiple digits
-- [ ] Recognize letter
 - [ ] Recognize multiple letters
 - [ ] Recognize handwriting
 - [ ] Recognize different languages
