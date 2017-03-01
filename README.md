@@ -8,7 +8,7 @@ Software to recognize handwriting
 <img src="https://github.com/samkit-jain/Handwriting-Recognition/blob/master/screen1.png" width="400">
 <img src="https://github.com/samkit-jain/Handwriting-Recognition/blob/master/screen2.png" width="400">
 
-# Stats
+# Stats (Digit)
 
 Dataset (digit) used - MNIST  
 Algorithm - Support Vector Machines (kernel = linear)  
