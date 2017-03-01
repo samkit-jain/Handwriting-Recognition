@@ -17,27 +17,36 @@ import numpy as np
 
 tot = 0
 
-for name in listdir(os.getcwd() + '/chars/'):
-	tot = tot + 1
+for name in listdir('/home/samkit/Desktop/fs'):
+	if name[-3:] == 'png':
+		tot = tot + 1
 
 x = np.zeros(shape=(tot,784))
 y = np.array([])
 
 tot = 0
 
-for name in listdir(os.getcwd() + '/chars/'):
-	y = np.append(y, np.array(name[0]))
-	
-	name = os.getcwd() + '/chars/' + name
+print "Reading letters..."
 
-	name_im = mpimg.imread(name)
-	name_im = np.dot(name_im[...,:3], [0.299, 0.587, 0.114])
-	name_im = name_im.flatten()
+t0 = time()
 
-	x[tot] = name_im
-	tot = tot + 1
+for name in listdir('/home/samkit/Desktop/fs'):
+	if name[-3:] == 'png':
+		y = np.append(y, np.array(name[0]))
+		
+		name_im = mpimg.imread('/home/samkit/Desktop/fs/' + name)
+		name_im = np.dot(name_im[...,:3], [0.299, 0.587, 0.114])
+		name_im = name_im.flatten()
+
+		x[tot] = name_im
+		tot = tot + 1
+
+print "Read letters..."
+print "Reading time: ", round(time() - t0, 3), "s"
 
 x = x / 255.0
+
+print "Training..."
 
 features_train, features_test, labels_train, labels_test = cross_validation.train_test_split(x, y, test_size=0, random_state=42)
 
@@ -45,6 +54,15 @@ clf = svm.SVC(kernel="linear")
 
 t0 = time()
 clf.fit(features_train, labels_train)
+
+f = open('classifier_letter.pickle', 'wb')
+pickle.dump(clf, f)
+f.close()
+
+#f = open('classifier_full.pickle', 'rb')
+#clf = pickle.load(f)
+
+print "Trained..."
 print "Training time: ", round(time() - t0, 3), "s"
 
 letter_loc = get_image_src()
