@@ -4,9 +4,7 @@ import sys
 import struct
 from android_rec import ret_val
 
-print ret_val()
 
-"""
 HOST = ''
 PORT = 8080
 
@@ -17,24 +15,30 @@ try:
 	s.bind((HOST, PORT))
 except socket.error, msg:
 	print 'Bind failed. Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
+	
 	sys.exit()
 
 s.listen(10)
 
 conn, addr = s.accept()
+
 print "Connected by: ", addr
+
 buf = ''
-while len(buf)<4:
-    buf += conn.recv(4-len(buf))
+
+while len(buf) < 4:
+	buf += conn.recv(4 - len(buf))
+
 size = struct.unpack('!i', buf)
 
 with open('test.png', 'wb') as img:
-    while True:
-        data = conn.recv(1024)
-        
-        if not data:
-            break
-        img.write(data)
+	while True:
+		data = conn.recv(1024)
+
+		if not data:
+			break
+
+		img.write(data)
 
 img.close()
 conn.close()
@@ -42,4 +46,3 @@ conn.close()
 print ret_val()
 
 s.close()
-"""
