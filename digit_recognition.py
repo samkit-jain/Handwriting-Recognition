@@ -12,6 +12,7 @@ import collections
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import numpy as np
+import painte
 
 def show_data(train, test):
 	train_count = collections.Counter(train)
@@ -101,12 +102,10 @@ while True:
 		print "Accuracy: ", (accuracy_score(pred, labels_train) * 100), "%"
 
 	elif choice == 2:
-		from painte import get_image_src
+		digit_loc = painte.get_image_src()
 
-		digit_loc = get_image_src()
-
-		if digit_loc != "":
-			digit_image = mpimg.imread(digit_loc)
+		for loc in digit_loc:
+			digit_image = mpimg.imread(loc)
 
 			gray_digit = np.dot(digit_image[...,:3], [0.299, 0.587, 0.114])
 			digit_display = gray_digit
@@ -117,9 +116,11 @@ while True:
 				gray_digit[i] = 1.0 - gray_digit[i]
 				gray_digit[i] = round(gray_digit[i], 8)
 
+			plt.figure()
 			plt.imshow(digit_display, cmap=plt.get_cmap('gray'))
 			plt.title('Digit is ' + str(int(clf.predict([gray_digit])[0])))
-			plt.show()
+		
+		plt.show()
 
 	elif choice == 3:
 		show_data(labels_train, labels_test)
