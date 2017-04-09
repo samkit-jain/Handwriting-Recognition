@@ -21,10 +21,18 @@ Accuracy - 96.92%
 
 - [x] Recognize digit
 - [x] Recognize letter
-- [ ] Recognize multiple digits
+- [x] Recognize multiple digits
 - [ ] Recognize multiple letters
 - [ ] Recognize handwriting
 - [ ] Recognize different languages
+- [x] Android app support
+
+
+# How to run
+
+For digit - `python digit_recognition.py`<br/>
+For letter - `python letter_recognition.py`<br/>
+For Android - `python hr_py.py` then install `app_debug.apk` in your phone, open app, draw digit and click `Predict`
 
 
 # License
