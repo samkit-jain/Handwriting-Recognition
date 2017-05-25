@@ -20,9 +20,8 @@ from sklearn.neighbors import KNeighborsClassifier
 def train_model():
 	tot = 0
 
-	#FIX IT, EVERYWHERE
 	for name in listdir('/home/samkit/Desktop/fs2'):
-		if name[-3:] == 'png' and name[0] != 'l' and name[0] != 'i' and name[0] != 'I':
+		if name[-3:] == 'png':
 			tot = tot + 1
 
 	x = np.zeros(shape=(tot,784))
@@ -35,7 +34,7 @@ def train_model():
 	t0 = time()
 
 	for name in listdir('/home/samkit/Desktop/fs2'):
-		if name[-3:] == 'png' and name[0] != 'l' and name[0] != 'i' and name[0] != 'I':
+		if name[-3:] == 'png':
 			y = np.append(y, np.array(name[0]))
 			
 			name_im = mpimg.imread('/home/samkit/Desktop/fs2/' + name)
@@ -67,34 +66,6 @@ def train_model():
 	pickle.dump(clf, f)
 	f.close()
 
-	
-
-	"""
-	#svm
-	clf = svm.SVC(kernel="linear", verbose=True, decision_function_shape='ovr')
-
-	t0 = time()
-
-	clf.fit(features_train, labels_train)
-
-	f = open('classifier_test1.pickle', 'wb')
-	pickle.dump(clf, f)
-	f.close()
-
-	print "Trained..."
-	print "Training time: ", round(time() - t0, 3), "s"
-
-	#f = open('classifier_test1.pickle', 'rb')
-	#clf = pickle.load(f)
-	#f.close()
-
-	t0 = time()
-	pred = clf.predict(features_train)
-	print "Prediction time: ", round(time() - t0, 3), "s"
-	print "Accuracy: ", (accuracy_score(pred, labels_train) * 100), "%"
-	"""
-
-
 
 def test_model():
 	f = open('classifier_knn165.pickle', 'rb')
@@ -104,7 +75,7 @@ def test_model():
 	tot = 0
 
 	for name in listdir('/home/samkit/Desktop/fs2'):
-		if name[-3:] == 'png' and name[0] != 'l' and name[0] != 'i' and name[0] != 'I':
+		if name[-3:] == 'png':
 			tot = tot + 1
 
 	x = np.zeros(shape=(tot,784))
@@ -118,7 +89,7 @@ def test_model():
 	t0 = time()
 
 	for name in listdir('/home/samkit/Desktop/fs2'):
-		if name[-3:] == 'png' and name[0] != 'l' and name[0] != 'i' and name[0] != 'I':
+		if name[-3:] == 'png':
 			y = np.append(y, np.array(name[0]))
 			
 			name_im = mpimg.imread('/home/samkit/Desktop/fs2/' + name)
