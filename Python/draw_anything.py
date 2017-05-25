@@ -99,6 +99,7 @@ if user_close == 0:
 	image1.thumbnail((20, 20), Image.ANTIALIAS)
 
 	image2.paste(image1, (0, 0))
+	#WHERE IS IMAGE2.SAVE(STEP4.PNG)
 
 	digit_image = mpimg.imread("step4.png")
 

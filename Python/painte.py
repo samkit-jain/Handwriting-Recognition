@@ -172,15 +172,23 @@ def get_image_src2():
 	filename = "test.png"
 
 	image0 = Image.open(filename)
-	image0.convert("RGBA")
+	image1 = Image.open(filename)
 
-	canvas = Image.new('RGBA', image0.size, (255,255,255,255)) # Empty canvas colour (r,g,b,a)
-	canvas.paste(image0, mask=image0) # Paste the image onto the canvas, using it's alpha channel as mask
-	canvas.thumbnail([280, 280], Image.ANTIALIAS)
-	canvas.save("step3.png", format="PNG")
+	datas = image0.getdata()
+	newdata = []
 
-	image1 = Image.open("step3.png")
-	image1 = image1.crop(image1.getbbox())
+	for item in datas:
+		if item[0] == 0 and item[1] == 0 and item[2] == 0: # Black -> White
+			newdata.append((255, 255, 255))
+		else:
+			newdata.append((0, 0, 0))
+
+	image0.putdata(newdata)
+
+	image0.save("st1.png")
+
+	image1 = image0.crop(image1.getbbox())
+	image1.save("step3.5.png")
 	w1, h1 = image1.size
 	
 	image2 = Image.new("RGB", (28, 28), (255, 255, 255))

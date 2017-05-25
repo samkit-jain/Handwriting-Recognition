@@ -14,116 +14,183 @@ import Image
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import numpy as np
+from sklearn.neighbors import KNeighborsClassifier
+
 
 def train_model():
-	co = 0
-	char_list = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+	tot = 0
 
-	while co < 26:
-		print char_list[co]
-		tot = 0
-		
-		for name in listdir('/home/samkit/Desktop/fs'):
-			if name[-3:] == 'png' and (name[0] == char_list[co] or name[0] == char_list[co + 1] or name[0] == char_list[co + 2] or name[0] == char_list[co + 3]):
-				tot = tot + 1
+	#FIX IT, EVERYWHERE
+	for name in listdir('/home/samkit/Desktop/fs2'):
+		if name[-3:] == 'png' and name[0] != 'l' and name[0] != 'i' and name[0] != 'I':
+			tot = tot + 1
 
-		x = np.zeros(shape=(tot,784))
-		y = np.array([])
+	x = np.zeros(shape=(tot,784))
+	y = np.array([])
 
-		tot = 0
+	tot = 0
 
-		#print "Reading letters..."
+	print "Reading letters..."
 
-		t0 = time()
+	t0 = time()
 
-		for name in listdir('/home/samkit/Desktop/fs'):
-			if name[-3:] == 'png' and (name[0] == char_list[co] or name[0] == char_list[co + 1] or name[0] == char_list[co + 2] or name[0] == char_list[co + 3]):
-				y = np.append(y, np.array(name[0]))
-				
-				name_im = mpimg.imread('/home/samkit/Desktop/fs/' + name)
-				name_im = np.dot(name_im[...,:3], [0.299, 0.587, 0.114])
-				name_im = name_im.flatten()
+	for name in listdir('/home/samkit/Desktop/fs2'):
+		if name[-3:] == 'png' and name[0] != 'l' and name[0] != 'i' and name[0] != 'I':
+			y = np.append(y, np.array(name[0]))
+			
+			name_im = mpimg.imread('/home/samkit/Desktop/fs2/' + name)
+			name_im = np.dot(name_im[...,:3], [0.299, 0.587, 0.114])
+			name_im = name_im.flatten()
 
-				x[tot] = name_im
-				tot = tot + 1
+			x[tot] = name_im
+			tot = tot + 1
 
-		#print "Read letters..."
-		#print "Reading time: ", round(time() - t0, 3), "s"
+	print "Read letters..."
+	print "Reading time: ", round(time() - t0, 3), "s"
 
-		x = x / 255.0
+	x = x / 255.0
 
-		#print "Training..."
+	print "Training..."
 
-		features_train, features_test, labels_train, labels_test = cross_validation.train_test_split(x, y, test_size=0, random_state=42)
+	features_train, features_test, labels_train, labels_test = cross_validation.train_test_split(x, y, test_size=0, random_state=42)
 
-		clf = svm.SVC(kernel="linear", probability=True)
+	
+	# Train
+	t0 = time()
+	clf = KNeighborsClassifier(n_neighbors=165)
+	clf.fit(features_train, labels_train)
+	print "Trained..."
+	print "Training time: ", round(time() - t0, 3), "s"
 
-		t0 = time()
+	# Save to pickle file
+	f = open('classifier_knn165.pickle', 'wb')
+	pickle.dump(clf, f)
+	f.close()
 
-		clf.fit(features_train, labels_train)
+	
 
-		f = open('classifier_letter' + str((co / 4) + 1) + '.pickle', 'wb')
-		pickle.dump(clf, f)
-		f.close()
+	"""
+	#svm
+	clf = svm.SVC(kernel="linear", verbose=True, decision_function_shape='ovr')
 
-		#f = open('classifier_full.pickle', 'rb')
-		#clf = pickle.load(f)
+	t0 = time()
 
-		#print "Trained..."
-		#print "Training time: ", round(time() - t0, 3), "s"
+	clf.fit(features_train, labels_train)
 
-		#t0 = time()
-		#pred = clf.predict(features_test)
-		#print "Prediction time: ", round(time() - t0, 3), "s"
-		#print "Accuracy: ", (accuracy_score(pred, labels_test) * 100), "%"
+	f = open('classifier_test1.pickle', 'wb')
+	pickle.dump(clf, f)
+	f.close()
 
-		co += 4
+	print "Trained..."
+	print "Training time: ", round(time() - t0, 3), "s"
+
+	#f = open('classifier_test1.pickle', 'rb')
+	#clf = pickle.load(f)
+	#f.close()
+
+	t0 = time()
+	pred = clf.predict(features_train)
+	print "Prediction time: ", round(time() - t0, 3), "s"
+	print "Accuracy: ", (accuracy_score(pred, labels_train) * 100), "%"
+	"""
+
 
 
 def test_model():
-	for i in range(13):
-		f = open('classifier_letter' + str(i + 1) + '.pickle', 'rb')
-		clf = pickle.load(f)
-		f.close()
+	f = open('classifier_knn165.pickle', 'rb')
+	clf = pickle.load(f)
+	f.close()
 
-		t0 = time()
-		pred = clf.predict(features_test)
-		
-		print "Accuracy: ", (accuracy_score(pred, labels_test) * 100), "%"
+	tot = 0
+
+	for name in listdir('/home/samkit/Desktop/fs2'):
+		if name[-3:] == 'png' and name[0] != 'l' and name[0] != 'i' and name[0] != 'I':
+			tot = tot + 1
+
+	x = np.zeros(shape=(tot,784))
+	y = np.array([])
+
+	print tot
+	return
+
+	tot = 0
+
+	t0 = time()
+
+	for name in listdir('/home/samkit/Desktop/fs2'):
+		if name[-3:] == 'png' and name[0] != 'l' and name[0] != 'i' and name[0] != 'I':
+			y = np.append(y, np.array(name[0]))
+			
+			name_im = mpimg.imread('/home/samkit/Desktop/fs2/' + name)
+			name_im = np.dot(name_im[...,:3], [0.299, 0.587, 0.114])
+			name_im = name_im.flatten()
+
+			x[tot] = name_im
+			tot = tot + 1
+
+	x = x / 255.0
+
+	features_train, features_test, labels_train, labels_test = cross_validation.train_test_split(x, y, test_size=0, random_state=42)
+
+	t0 = time()
+	pred = clf.predict(features_train)
+	print "Prediction time: ", round(time() - t0, 3), "s"
+	print "Accuracy: ", (accuracy_score(pred, labels_train) * 100), "%"
+
 
 def recognise_letter():
 	letter_loc = get_image_src()
 
-	if letter_loc != "":
-		letter_image = mpimg.imread(letter_loc)
+	for loc in letter_loc:
+		letter_image = mpimg.imread(loc)
 
 		gray_letter = np.dot(letter_image[...,:3], [0.299, 0.587, 0.114])
 		letter_display = gray_letter
 
 		gray_letter = gray_letter.flatten()
 
-		for i in range(len(gray_letter)):
-			gray_letter[i] = 1.0 - gray_letter[i]
-			gray_letter[i] = round(gray_letter[i], 8)
-
-		#plt.imshow(letter_display, cmap=plt.get_cmap('gray'))
 		
-		for i in range(13):
-			f = open('classifier_letter' + str(i + 1) + '.pickle', 'rb')
-			clf = pickle.load(f)
-			f.close()
+		for i in range(len(gray_letter)):
+			gray_letter[i] = gray_letter[i]
+			gray_letter[i] = round(gray_letter[i], 8)
+		
+		f = open('classifier_knn165.pickle', 'rb')
+		clf = pickle.load(f)
+		f.close()
 
-			print clf.predict([gray_letter])
-			#print clf.predict_log_proba([gray_letter])
-			#print clf.predict_proba([gray_letter])
-			#print clf.decision_function([gray_letter])
-			#break
-			print
+		plt.figure()
+		plt.imshow(letter_display, cmap=plt.get_cmap('gray'))
+		plt.title('letter is ' + clf.predict([gray_letter])[0])
 
-		#plt.title('letter is ' + str(clf.predict([gray_letter])[0]))
-		#plt.show()
+	plt.show()
 
 
-train_model()
-#test_model()
-#recognise_letter()
+def show_menu():
+	print
+	print "<1> Calculate accuracy"
+	print "<2> Recognize letter"
+	print "<3> Train again"
+	print "<any other> Exit"
+	print
+	ch = int(raw_input("Enter choice - "))
+
+	return ch
+
+
+choice = 0
+
+while True:
+	choice = show_menu()
+
+	if choice == 1:
+		test_model()
+
+	elif choice == 2:
+		recognise_letter()
+
+	elif choice == 3:
+		train_model()
+
+	else:
+		print "Thank you!"
+		break
