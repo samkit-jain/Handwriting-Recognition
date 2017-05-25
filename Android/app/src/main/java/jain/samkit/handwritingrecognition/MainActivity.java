@@ -30,7 +30,7 @@ import java.net.Socket;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final String IP_ADDR = "192.168.1.43";
+    private final String IP_ADDR = "192.168.43.214";
     private final int IP_ADDR_PORT = 8080;
     DrawingView dv;
     private Paint mPaint;
@@ -43,11 +43,11 @@ public class MainActivity extends AppCompatActivity {
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);
-        mPaint.setColor(Color.BLACK);
+        mPaint.setColor(Color.WHITE);
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeJoin(Paint.Join.ROUND);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
-        mPaint.setStrokeWidth(16);
+        mPaint.setStrokeWidth(80);
     }
 
     @Override
@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onSizeChanged(int w, int h, int oldw, int oldh) {
             super.onSizeChanged(w, h, oldw, oldh);
 
-            mBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+            mBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.RGB_565);
             mCanvas = new Canvas(mBitmap);
         }
 
@@ -188,6 +188,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
 
+            canvas.drawRGB(0, 0, 0);
             canvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
             canvas.drawPath(mPath, mPaint);
             canvas.drawPath(circlePath, circlePaint);
