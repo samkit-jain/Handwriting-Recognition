@@ -7,8 +7,9 @@ Software to recognize handwriting.
 
 <img src="https://github.com/samkit-jain/Handwriting-Recognition/blob/master/Screenshots/Handwritten%20Character%20Recognition.png" width="500"><br/>
 <img src="https://github.com/samkit-jain/Handwriting-Recognition/blob/master/Screenshots/Handwritten%20Character%20Recognition%20(1).png" width="500"><br/>
-<img src="https://github.com/samkit-jain/Handwriting-Recognition/blob/master/Screenshots/Handwritten%20Character%20Recognition%20(2).png" width="500">
-
+<img src="https://github.com/samkit-jain/Handwriting-Recognition/blob/master/Screenshots/Handwritten%20Character%20Recognition%20(2).png" width="500"><br/>
+<img src="https://github.com/samkit-jain/Handwriting-Recognition/blob/master/Screenshots/screen21.png" width="300">
+<img src="https://github.com/samkit-jain/Handwriting-Recognition/blob/master/Screenshots/image13.png" width="700">
 
 # Stats (Digit)
 
