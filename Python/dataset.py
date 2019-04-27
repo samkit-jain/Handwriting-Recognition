@@ -28,10 +28,10 @@ class DatasetGenerator:
         self.data_dir_path = data_dir_path
 
         if not(self.download_dir_path and self.download_dir_path.strip()):
-            self.download_dir_path = 'download/'
+            self.download_dir_path = osp.abspath('download/')
 
         if not(self.data_dir_path and self.data_dir_path.strip()):
-            self.data_dir_path = 'data/'
+            self.data_dir_path = osp.abspath('data/')
 
         pathlib.Path(self.download_dir_path).mkdir(parents=True, exist_ok=True)
         pathlib.Path(self.data_dir_path).mkdir(parents=True, exist_ok=True)
