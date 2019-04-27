@@ -1,4 +1,5 @@
 data/
 download/
 venv/
+models/
 .idea/

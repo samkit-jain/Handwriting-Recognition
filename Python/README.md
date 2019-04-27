@@ -2,8 +2,8 @@
 
 Tested on Python 3.6.7
 
-Model accuracy when trained on EMNIST balanced dataset: 65.30%
-NOTE: Except `k`, the default training parameters were used. To get better results, you can try changing the training parameters or some pre-processing.
+Model accuracy when trained on EMNIST balanced dataset: 75.21%
+NOTE: The default training parameters were used. To get better results, you can try changing the training parameters or maybe some pre-processing.
 
 ## Dataset Creation
 
