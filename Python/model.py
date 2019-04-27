@@ -7,10 +7,10 @@ import pathlib
 
 from halo import Halo
 from joblib import dump, load
-from math import sqrt
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.preprocessing import StandardScaler
 
 
 class Model:
@@ -75,8 +75,6 @@ class Model:
         features = np.array(features)
         labels = np.array(labels).ravel()
 
-        features = features / 255.0
-
         return features, labels
 
     def train(self):
@@ -90,16 +88,16 @@ class Model:
         # split into training and testing
         features_train, features_test, labels_train, labels_test = train_test_split(x, y, test_size=0.2, random_state=0)
 
+        # perform scaling
+        ss = StandardScaler()
+        features_train = ss.fit_transform(features_train)
+        features_test = ss.transform(features_test)
+
         spinner = Halo(text='Training', spinner='dots')
         spinner.start()
 
-        # calculate value of k
-        k = int(round(sqrt(features_train.shape[0])))
-        if k % 2 == 0:
-            k += 1
-
         # step 2: train the model
-        knn_clf = KNeighborsClassifier(n_neighbors=k)
+        knn_clf = KNeighborsClassifier()
         knn_clf.fit(features_train, labels_train)
 
         spinner.succeed(text='Finished training')
