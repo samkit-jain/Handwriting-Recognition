@@ -10,11 +10,13 @@ from joblib import dump, load
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import MinMaxScaler
 
 
 class Model:
-    def __init__(self, data_dir_path: str = ''):
+    def __init__(self, data_dir_path: str = '', skip_evaluation: bool = False):
+        self.skip_evaluation = skip_evaluation
         self.data_dir_path = data_dir_path
 
         if not(self.data_dir_path and self.data_dir_path.strip()):
@@ -24,6 +26,21 @@ class Model:
         pathlib.Path(models_dir_path).mkdir(parents=True, exist_ok=True)
 
         self.joblib_path = os.path.join(models_dir_path, 'classifier.joblib')
+
+    def predict(self, img):
+        """
+        Method to run prediction on a single image.
+        """
+
+        clf = load(self.joblib_path)
+
+        img = np.dot(img[..., :3], [0.299, 0.587, 0.114])
+        img = img.flatten()
+
+        label = clf.predict([img])[0]
+        print(f'Image predicted to be: {label}')
+
+        return label
 
     def read_dataset(self):
         """
@@ -88,39 +105,34 @@ class Model:
         # split into training and testing
         features_train, features_test, labels_train, labels_test = train_test_split(x, y, test_size=0.2, random_state=0)
 
-        # perform scaling
-        ss = StandardScaler()
-        features_train = ss.fit_transform(features_train)
-        features_test = ss.transform(features_test)
-
         spinner = Halo(text='Training', spinner='dots')
         spinner.start()
 
         # step 2: train the model
-        knn_clf = KNeighborsClassifier()
-        knn_clf.fit(features_train, labels_train)
+        pipeline_knn_clf = Pipeline([('scaler', MinMaxScaler()), ('classifier', KNeighborsClassifier())])
+        pipeline_knn_clf.fit(features_train, labels_train)
 
         spinner.succeed(text='Finished training')
 
-        spinner = Halo(text='Evaluating', spinner='dots')
-        spinner.start()
+        if self.skip_evaluation:
+            print('Skipping running evaluation')
 
-        # step 3: evaluate the model
-        labels_pred = knn_clf.predict(features_test)
-        score = accuracy_score(labels_test, labels_pred)
+        else:
+            spinner = Halo(text='Evaluating', spinner='dots')
+            spinner.start()
 
-        spinner.succeed(text='Finished evaluation')
+            # step 3: evaluate the model
+            labels_pred = pipeline_knn_clf.predict(features_test)
+            score = accuracy_score(labels_test, labels_pred)
 
-        print(f'Accuracy (max=1.0): {score}')
+            spinner.succeed(text='Finished evaluation')
+
+            print(f'Accuracy (max=1.0): {score}')
 
         # persist model
-        dump(knn_clf, self.joblib_path)
+        dump(pipeline_knn_clf, self.joblib_path)
 
         print(f'Model saved at {self.joblib_path}')
-
-    def predict(self):
-        knn_clf = load(self.joblib_path)
-        pass
 
 
 if __name__ == '__main__':
@@ -137,7 +149,16 @@ if __name__ == '__main__':
         type=str,
         help='Path where dataset images are saved.',
     )
+    parser.add_argument(
+        '-se',
+        '--skip-evaluation',
+        dest='skip_evaluation',
+        action='store_true',
+        default=False,
+        help='Whether to skip running evaluations or not.',
+    )
     args = parser.parse_args()
 
-    model = Model(data_dir_path=args.data_path)
+    model = Model(data_dir_path=args.data_path, skip_evaluation=args.skip_evaluation)
     model.train()
+    model.predict(cv2.imread('/home/samkitjain/Samkit/Projects/Python/Handwriting-Recognition/Python/data/e/tmp0_43_v04.png'))
