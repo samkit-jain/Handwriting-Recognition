@@ -2,8 +2,13 @@
 
 Tested on Python 3.6.7
 
-Model accuracy when trained on EMNIST balanced dataset: 75.21%
+Model accuracy when trained on EMNIST balanced dataset: 78.12%
 NOTE: The default training parameters were used. To get better results, you can try changing the training parameters or maybe some pre-processing.
+
+## Setup
+
+1. Create a virtual environment
+2. Install dependencies: `pip install -r requirements.txt`
 
 ## Dataset Creation
 
