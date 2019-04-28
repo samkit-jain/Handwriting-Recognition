@@ -170,7 +170,7 @@ class DatasetGenerator:
                 label_folder = osp.abspath(osp.join(self.data_dir_path, label))
                 image_dest = tempfile.mktemp(dir=label_folder, suffix='.png')
 
-                cv2.imwrite(f'{image_dest}', image)
+                cv2.imwrite(f'{image_dest}', image.T)
 
                 progress_bar.next()
 
