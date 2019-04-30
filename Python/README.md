@@ -2,7 +2,7 @@
 
 Tested on Python 3.6.7
 
-Model accuracy when trained on EMNIST balanced dataset: 78.12%
+Model accuracy when trained on EMNIST balanced dataset: 78.14%
 NOTE: The default training parameters were used. To get better results, you can try changing the training parameters or maybe some pre-processing.
 
 ## Setup
@@ -16,4 +16,8 @@ The model uses the extended MNIST dataset. To setup the dataset, run `python dat
 
 ## Model Training
 
-To train the model, run `python model.py`. To know the CLI options, append it with `-h` or `--help`. The model is saved at `models/classifier.joblib`
+To train the model, run `python model.py`. To know the CLI options, append it with `-h` or `--help`. The model is saved at `models/classifier.joblib`.
+
+## Model application
+
+Run `python drawer.py`. It will open a window. Draw the characters over there and **press ESC key to close the window**. It will then run predictions on the characters drawn and publish result to console and display the image in a window with it's title being the predicted label. **Press ESC key to close the window and run predictions on next image.**
