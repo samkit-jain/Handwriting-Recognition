@@ -69,7 +69,7 @@ class Drawer:
         char_images = self.get_contours()
 
         for cimg in char_images:
-            images.append(Drawer.save_as_emnist(img=cimg))
+            images.append(Drawer.convert_to_emnist(img=cimg))
 
         return images
 
@@ -97,7 +97,7 @@ class Drawer:
         self.img = np.zeros((1024, 1024, 3), np.uint8)
 
     @staticmethod
-    def save_as_emnist(img):
+    def convert_to_emnist(img):
         """
         Method to make an image EMNIST format compatible. img is a cropped version of the character image.
 
@@ -129,7 +129,7 @@ if __name__ == '__main__':
     images = Drawer().get_images()
 
     for image in images:
-        label = Model().predict(image)
+        label = Model().predict(img=image)
         cv2.imshow(winname=label, mat=image)
         cv2.waitKey(delay=0)
         cv2.destroyAllWindows()
