@@ -81,7 +81,7 @@ class Model:
                 if imghdr.what(filepath) == 'png':
                     labels.append([os.path.basename(os.path.dirname(filepath))])
 
-                    name_im = cv2.imread(filepath)
+                    name_im = cv2.imread(filename=filepath)
                     name_im = np.dot(name_im[..., :3], [0.299, 0.587, 0.114])
                     name_im = name_im.flatten()
 
@@ -161,4 +161,3 @@ if __name__ == '__main__':
 
     model = Model(data_dir_path=args.data_path, skip_evaluation=args.skip_evaluation)
     model.train()
-    model.predict(cv2.imread('/home/samkitjain/Samkit/Projects/Python/Handwriting-Recognition/Python/data/e/tmp0_43_v04.png'))
