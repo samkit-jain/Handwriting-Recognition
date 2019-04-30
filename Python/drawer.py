@@ -47,7 +47,7 @@ class Drawer:
         main_image = cv2.GaussianBlur(src=main_image, ksize=(5, 5), sigmaX=0)
 
         # threshold the image
-        ret, main_image = cv2.threshold(src=main_image, thresh=127, maxval=255, type=cv2.THRESH_BINARY)
+        _, main_image = cv2.threshold(src=main_image, thresh=127, maxval=255, type=cv2.THRESH_BINARY)
 
         # find contours in the image
         contours, _ = cv2.findContours(image=main_image.copy(), mode=cv2.RETR_EXTERNAL, method=cv2.CHAIN_APPROX_SIMPLE)
