@@ -168,9 +168,10 @@ class DatasetGenerator:
             # save images to data directory
             for label, image in zip(labels, images):
                 label_folder = osp.abspath(osp.join(self.data_dir_path, label))
-                image_dest = tempfile.mkstemp(dir=label_folder, suffix='.png')[1]
+                image_fd, image_dest = tempfile.mkstemp(dir=label_folder, suffix='.png')
 
                 cv2.imwrite(f'{image_dest}', image.T)
+                os.close(image_fd)  # if not closed, can get OSError: [Errno 24] Too many open files
 
                 progress_bar.next()
 
