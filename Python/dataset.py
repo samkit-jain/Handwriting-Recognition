@@ -2,6 +2,7 @@ import argparse
 import cv2
 import gzip
 import numpy as np
+import os
 import pathlib
 import requests
 import shutil
