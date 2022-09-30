@@ -1,6 +1,6 @@
 opencv-python==4.1.0.25
 halo==0.0.23
-joblib==0.13.2
+joblib==1.2.0
 progress==1.5
 requests==2.21.0
 scikit-learn==0.20.3
