@@ -15,14 +15,14 @@ s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 try:
     s.bind((HOST, PORT))
 except socket.error as e:
-    print('Bind failed. Error: ' + str(e))
+    print(f'Bind failed. Error: {str(e)}')
     sys.exit()
 
 s.listen(10)
 
 conn, addr = s.accept()
 
-print('Connected by: ' + str(addr))
+print(f'Connected by: {str(addr)}')
 
 buf = ''
 
@@ -33,12 +33,11 @@ size = struct.unpack('!i', buf)
 
 with open('test.png', 'wb') as img:
     while True:
-        data = conn.recv(1024)
+        if data := conn.recv(1024):
+            img.write(data)
 
-        if not data:
+        else:
             break
-
-        img.write(data)
 
 img.close()
 conn.close()
