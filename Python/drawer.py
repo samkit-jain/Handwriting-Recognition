@@ -62,16 +62,11 @@ class Drawer:
         return images
 
     def get_images(self):
-        images = []
-
         self.draw()
 
         char_images = self.get_contours()
 
-        for cimg in char_images:
-            images.append(Drawer.convert_to_emnist(img=cimg))
-
-        return images
+        return [Drawer.convert_to_emnist(img=cimg) for cimg in char_images]
 
     def mouse_callback(self, event, x, y, flags, params):
         """

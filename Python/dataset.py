@@ -101,7 +101,7 @@ class DatasetGenerator:
         response = requests.get(url, stream=True)
         total_size = int(response.headers.get('content-length'))
         chunk_size = 4096
-        total_steps = int(total_size / chunk_size)
+        total_steps = total_size // chunk_size
         progress_bar = IncrementalBar(max=total_steps, suffix='%(percent).1f%%')
 
         with open(dest, mode='wb') as fd:
